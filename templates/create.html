@@ -10,23 +10,28 @@
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" /> 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script> 
+    $(document).ready(function() {
+    $('.form-control').select2();
+    });
+</script>
 
 <form method="post">
     <div class="form-group">
         <label for="title">Bière : </label>
-        <select name="biere" class = "selectpicker form-control" searchable = "Search...">
-            <option class="editable" value="other">Other</option>
+        <select name="biere" id="sel_biere" class = "selectpicker form-control" searchable = "Search..." style="width:200px">
             {% for biere in bieres %}
                <option value="{{biere[0]}}" SELECTED>{{biere[0]}}</option>
             {% endfor %}
         </select>
-        <!-- <button onclick="addOption()">Add option</button> -->
+        <input type = "text" id = "new_beer"></input>
+        <button type="button" onclick="Add_new()">Ajouter</button>
     </div>
 
     <div class="form-group">
         <label for="content">Distributeur :</label>
-        <select name="distri" class = "selectpicker form-control" searchable = "Search...">
+        <select name="distri" class = "selectpicker form-control" searchable = "Search..." style="width:200px">
             {% for distri in distributeurs %}
                 <option value="{{distri[0]}}" SELECTED>{{distri[0]}}</option>
             {% endfor %}
@@ -35,7 +40,7 @@
 
     <div class="form-group">
         <label for="content">Brasserie :</label>
-        <select name="brass">
+        <select name="brass" class = "selectpicker form-control" searchable = "Search..." style="width:200px">
             {% for brass in brasseries %}
                 <option value="{{brass[0]}}" SELECTED>{{brass[0]}}</option>
             {% endfor %}
@@ -63,16 +68,17 @@
                value="{{ request.form['prix_vente'] }}"></input>
     </div>
     <div class="form-group">
-        <button type="submit" class="btn btn-primary" onClick="return confirm('ok ?')">Submit</button>
+        <button type="submit" class="btn btn-primary" onClick="return confirm('Confirmez-vous cet approvisionnement ?')">Submit</button>
     </div>
 </form>
-<!-- <script type="text/javascript">
-    function addOption() {
-        optionText = 'Ultimate';
-        optionValue = 'ultimate';
 
-        $('#select1').append(new Option(optionText, optionValue));
+<script type="text/javascript">
+    function Add_new() {
+    var x = document.getElementById("sel_biere");
+    var option = document.createElement("option");
+    option.text = document.getElementById("new_beer").value;
+    x.add(option);
     }
-</script> -->
+</script>
 {% endblock %}
 </html>
