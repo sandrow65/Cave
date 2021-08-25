@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block title %} Editer une facture {% endblock %}</h1>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" /> 
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+
+<script> 
+    $(document).ready(function() {
+    $('.form-control').select2();
+    });
+</script>
+
+<div id = "facture">
+
+    <form method="POST">
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Bière</th>
+                    <th>Vendeur</th>
+                    <th>Quantité</th>
+                    <th>Prix unitaire</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <!-- <td><input type="text"></td> -->
+                    <td><select name="biere" class = "selectpicker form-control" searchable = "Search..." style="width:200px">
+                        {% for b in liste_bieres %}
+                            <option value="{{ b }}">{{b}}</option>
+                        {% endfor %}
+                    </select></td>
+                    <!-- <td><input type="text" id = "vendeurs"></td> -->
+                    <td><select name="vendeur" class = "selectpicker form-control" searchable = "Search..."  style="width:100px">
+                        {% for v in liste_vendeurs %}
+                            <option value="{{ v }}">{{v}}</option>
+                        {% endfor %}
+                    </select></td>
+                    <td><input type="int"></td>
+                    <td><input type="float"></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <button id="submit_rows">Submit</button>
+    <button id="add_rows">+</button>
+</div>
+
+
+<script language="javascript">
+
+    $("#add_rows").click(function() {
+        
+        // each click on the `+` button adds a row to the table
+        $("#facture tbody").append('<tr>\
+            <td><select name="biere" class = "selectpicker form-control searchable = "Search..." style="width:200px"">\
+                    {% for b in liste_bieres %}\
+                        <option value="{{ b }}">{{b}}</option>\
+                    {% endfor %}\
+                </select></td>\
+            <td><select name="vendeur" class = "selectpicker form-control searchable = "Search..." style="width:100px"">\
+                    {% for v in liste_vendeurs %}\
+                        <option value="{{ v }}">{{v}}</option>\
+                    {% endfor %}\
+                </select></td>\
+            <td><input type="int"></td>\
+            <td><input type="float"></td></tr>');
+        $('.form-control').select2();
+    });
+    $("#submit_rows").click(function() {
+        // `obj` for storing the inputs, and the `n` to make unrepeated keys
+        var obj = {}, n = 0;
+        // loop over the rows
+        $("#facture tbody tr").each(function(ind, tr) {
+            // add an array to the object
+            obj[`r${n}`] = [];
+            // loop over the inputs of this row
+            $(this).find("input").each(function(ind, input) {
+            // add the value of the input to the array and make sure to remove any semicolon since
+            // we will use it to separate the inputs
+            var val = input.value.replace(/;/g, "");
+            obj[`r${n}`].push(val);
+            });
+            $(this).find("select").each(function(ind, select) {
+            // add the value of the input to the array and make sure to remove any semicolon since
+            // we will use it to separate the inputs
+            var val = select.value.replace(/;/g, "");
+            obj[`r${n}`].push(val);
+            });
+            // no need for the array, just join it to a string of values separated by semicolons
+            obj[`r${n}`] = obj[`r${n}`].join(";");
+            // increase the value of `n`
+            n++;
+        });
+        // log the object to the console so you can see what we are sending
+        console.log(obj);
+        // send the data to the server, see the console for a logging message for success
+        $.post("http://192.168.1.174:5000/facturation", obj, (data, status) => console.log("Status: " + status));
+        $("#table table").remove();
+    });
+    
+</script>
+
+
+{% endblock %}
+
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <input type="button" value="Créer une facture." onclick="generate_table()">
+    <input type="button" value="Ajouter une ligne." onclick="addRow(tbl)">
+
+    <script>
+        function generate_table() {
+            // get the reference for the body
+            var body = document.getElementsByTagName("body")[0];
+
+            // creates a <table> element and a <tbody> element
+            var tbl = document.createElement("table");
+            var tblBody = document.createElement("tbody");
+
+            // creating all cells
+            for (var i = 0; i < 2; i++) {
+                // creates a table row
+                var row = document.createElement("tr");
+
+                for (var j = 0; j < 2; j++) {
+                // Create a <td> element and a text node, make the text
+                // node the contents of the <td>, and put the <td> at
+                // the end of the table row
+                var cell = document.createElement("td");
+                var cellText = document.createTextNode("cell in row "+i+", column "+j);
+                cell.appendChild(cellText);
+                row.appendChild(cell);
+                }
+
+                // add the row to the end of the table body
+                tblBody.appendChild(row);
+            }
+
+            // put the <tbody> in the <table>
+            tbl.appendChild(tblBody);
+            // appends <table> into <body>
+            body.appendChild(tbl);
+            // sets the border attribute of tbl to 2;
+            tbl.setAttribute("border", "2");
+            }
+
+        function addRow(in_tbl_name)
+        {
+            var tbody = document.getElementById(in_tbl_name).getElementsByTagName("TBODY")[0];
+            // create row
+            var row = document.createElement("TR");
+            var td1 = document.createElement("TD")
+            var strHtml1 = "<INPUT TYPE=\"text\" NAME=\"in_name\" SIZE=\"5\" MAXLENGTH=\"255\" class=\"textborder\';\">";
+            td1.innerHTML=strHtml1 ;
+            var td2 = document.createElement("TD")
+            var strHtml2 = "<INPUT TYPE=\"text\" NAME=\"in_name\" SIZE=\"30\" MAXLENGTH=\"255\" class=\"textbordersmall\';\">";
+            td2.innerHTML=strHtml2;
+            var td3 = document.createElement("TD")
+            var strHtml3 = "<INPUT TYPE=\"text\" NAME=\"in_name\" SIZE=\"5\" MAXLENGTH=\"255\" class=\"textbordersmall\';\">";
+            td3.innerHTML=strHtml3 ;
+            var td4 = document.createElement("TD")
+            var strHtml4 = "<INPUT TYPE=\"text\" NAME=\"in_name\" SIZE=\"5\" MAXLENGTH=\"255\" class=\"textbordersmall\';\">";
+            td4.innerHTML=strHtml4 ;
+            // append data to row
+            row.appendChild(td1);
+            row.appendChild(td2);
+            row.appendChild(td3);
+            row.appendChild(td4);
+            // add to count variable
+            count = parseInt(count) + 1;
+            // append row to table
+            tbody.appendChild(row);
+        }
+    </script>
+
+</html>

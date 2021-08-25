@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="fr">
+    {% extends 'base.html' %}
+
+    {% block content %}
+        <h1>{% block title %} Consultation du stock {% endblock %}</h1>
+        {% for table in tables %}
+                <!-- {{titles[loop.index]}} -->
+                <span>{{ table|safe }}</span>
+            {% endfor %}
+            <hr>
+    {% endblock %}
+</html>

@@ -1,0 +1,152 @@
+
+    <div class="form-group">
+        <label for="title">Bière</label>
+        <input type="text" name="biere" id="biere"
+               placeholder="Entrer le nom de la bière" class="form-control"
+               value="{{ request.form['biere'] }}"></input>
+    </div>
+
+    <div class="form-group">
+        <label for="content">Vendeur</label>
+        <input type="text" name="vendeur" id="vendeur"
+               placeholder="Sélectionner le vendeur" class="form-control"
+               value="{{ request.form['vendeur'] }}"></input>
+    </div>
+
+    <div class="form-group">
+        <label for="content">Quantite</label>
+        <input type="int" name="quantite" id="quantite"
+               placeholder="Entrer la quantité vendue" class="form-control"
+               value="{{ request.form['quantite'] }}"></input>
+    </div>
+
+    <div class="form-group">
+        <label for="content">Prix_unitaire</label>
+        <input type="float" name="prix_unit" id="prix_unit"
+               placeholder="Entrer le prix unitaire" class="form-control"
+               value="{{ request.form['prix_unit'] }}"></input>
+    </div>    
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary" onClick="exportTableToCSV('facture' + id + '.csv')">Submit</button> 
+        <!-- onClick="submit_data()" -->
+    <!-- </div>
+
+    <div class="form-group">
+        <button type="button" class="btn btn-primary" onClick="insertData()">Add</button>
+    </div> --> -->
+
+    <!-- <script language="javascript">
+        function insertData() {
+            var biere = document.getElementById("biere").value;
+            var vendeur = document.getElementById("vendeur").value;
+            var quantite = document.getElementById("quantite").value;
+            var prix_unit = document.getElementById("prix_unit").value;
+            console.log(document.getElementById("insertionPoint").innerHTML);
+            // document.getElementById("insertionPoint").innerHTML += "<tr><td>" + biere + "</td><td>" + vendeur + "</td><td>" + quantite + "</td><td>" + prix_unit + "</td></tr>";
+            
+            var table = document.getElementById('facture').getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow(table.rows.length);
+            newRow.innerHTML = "<tr><td>" + biere + "</td><td>" + vendeur + "</td><td>" + quantite + "</td><td>" + prix_unit + "</td></tr>";
+
+            // The below part is to clear the values after the entry is added.
+            document.getElementById("biere").value = "";
+            document.getElementById("vendeur").value = "";
+            document.getElementById("quantite").value = "";
+            document.getElementById("prix_unit").value = "";
+
+            console.table(document.getElementById("facture"));
+        }
+
+        function exportTableToCSV(filename) {
+            var csv = [];
+            var rows = document.querySelectorAll("table tr");
+
+            for(var i = 0; i < rows.length; i++){
+                var row = [], cols = rows[i].querySelectorAll("td, th");
+                for(var j = 0; j < cols.length; j++){
+                    row.push(cols[j].innerText);
+                }
+                csv.push(row.join(";"));
+            }
+
+            // download csv file
+            downloadCSV(csv.join("\n"), filename);
+        }
+
+        function downloadCSV(csv, filename) {
+            var csvFile;
+            var downloadLink;
+
+            csvFile = new Blob([csv], {type:"text/csv"});
+            downloadLink = document.createElement("a");
+            downloadLink.download = filename;
+            downloadLink.href = window.URL.createObjectURL(csvFile);
+            downloadLink.style.display = "none";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+        }
+
+        function addRow() {
+          
+          var biere = document.getElementById("biere");
+          var vendeur = document.getElementById("vendeur");
+          var quantite = document.getElementById("quantite");
+          var prix_unit = document.getElementById("prix_unit");
+          let table = document.getElementById("facture");
+        //   var tbody = table.tBodies[0];
+       
+          let newRow = table.insertRow(-1);
+          let newCell = newRow.insertCell(0);
+          let newText = document.createTextNode(biere.value);
+          newCell.appendChild(newText);
+
+          let newCell1 = newRow.insertCell(1);
+          let newText1 = document.createTextNode(vendeur.value);
+          newCell1.appendChild(newText1);
+
+          let newCell2 = newRow.insertCell(2);
+          let newText2 = document.createTextNode(quantite.value);
+          newCell2.appendChild(newText2);
+
+          let newCell3 = newRow.insertCell(3);
+          let newText3 = document.createTextNode(prix_unit.value);
+          newCell3.appendChild(newText3);
+       
+        //   row.insertCell().innerHTML= biere.value;
+        //   row.insertCell().innerHTML= vendeur.value;
+        //   row.insertCell().innerHTML= quantite.value;
+        //   row.insertCell().innerHTML= prix_unit.value;
+
+          document.getElementById("biere").value = "";
+          document.getElementById("vendeur").value = "";
+          document.getElementById("quantite").value = "";
+          document.getElementById("prix_unit").value = "";
+        }
+
+          // function to extract and submit table data.
+        function submit_data() {
+            var myTab = document.getElementById('facture');
+            console.log(myTab);
+            var arrValues = new Array();
+
+            // loop through each row of the table.
+            for (row = 1; row < myTab.rows.length - 1; row++) {
+                console.log(row);
+                // loop through each cell in a row.
+                for (c = 0; c < myTab.rows[row].cells.length; c++) {
+                    var element = myTab.rows.item(row).cells[c];
+                    console.log(element);
+                    if (element.childNodes[0].getAttribute('type') == 'text') {
+                        arrValues.push("'" + element.childNodes[0].value + "'");
+                    }
+                }
+            }
+            
+            // finally, show the result in the console.
+            console.log(arrValues);
+        }
+    </script>
+
+
+</form>
