@@ -1,5 +1,4 @@
 flask
 pandas
-sqlite3
 numpy
 datetime
