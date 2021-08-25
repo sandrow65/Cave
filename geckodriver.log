@@ -1,0 +1,117 @@
+1627318146615	geckodriver	INFO	Listening on 127.0.0.1:55675
+1627318149654	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Sandra\\AppData\\Local\\Temp\\rust_mozprofileKGFldZ"
+1627318149980	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Sandra\\AppData\\Local\\Temp\\rust_mozprofileKGFldZ\\search.json.mozlz4", (void 0)))
+1627318152028	Marionette	INFO	Listening on port 55683
+1627318152338	Marionette	WARN	TLS certificate errors will be ignored for this session
+1627318156775	Marionette	INFO	Stopped listening on port 55683
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1627318213585	geckodriver	INFO	Listening on 127.0.0.1:55754
+1627318216624	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Sandra\\AppData\\Local\\Temp\\rust_mozprofilegbn8ii"
+1627318216895	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Sandra\\AppData\\Local\\Temp\\rust_mozprofilegbn8ii\\search.json.mozlz4", (void 0)))
+1627318218571	Marionette	INFO	Listening on port 55763
+1627318218682	Marionette	WARN	TLS certificate errors will be ignored for this session
+1627318232717	Marionette	INFO	Stopped listening on port 55763
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1627318348144	geckodriver	INFO	Listening on 127.0.0.1:55825
+1627318351190	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Sandra\\AppData\\Local\\Temp\\rust_mozprofilekmxMR7"
+1627318351458	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Sandra\\AppData\\Local\\Temp\\rust_mozprofilekmxMR7\\search.json.mozlz4", (void 0)))
+1627318353083	Marionette	INFO	Listening on port 55834
+1627318353253	Marionette	WARN	TLS certificate errors will be ignored for this session
+1627318361738	Marionette	INFO	Stopped listening on port 55834
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1627318377107	geckodriver	INFO	Listening on 127.0.0.1:55891
+1627318380156	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Sandra\\AppData\\Local\\Temp\\rust_mozprofileBnZ90s"
+1627318380422	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Sandra\\AppData\\Local\\Temp\\rust_mozprofileBnZ90s\\search.json.mozlz4", (void 0)))
+1627318382158	Marionette	INFO	Listening on port 55899
+1627318382233	Marionette	WARN	TLS certificate errors will be ignored for this session
+1627318386528	Marionette	INFO	Stopped listening on port 55899
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1627318469532	geckodriver	INFO	Listening on 127.0.0.1:55966
+1627318472568	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Sandra\\AppData\\Local\\Temp\\rust_mozprofileWsGyRU"
+1627318472838	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Sandra\\AppData\\Local\\Temp\\rust_mozprofileWsGyRU\\search.json.mozlz4", (void 0)))
+1627318474689	Marionette	INFO	Listening on port 55976
+1627318474738	Marionette	WARN	TLS certificate errors will be ignored for this session
+1627318485410	Marionette	INFO	Stopped listening on port 55976
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1627318585080	geckodriver	INFO	Listening on 127.0.0.1:56039
+1627318588099	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Sandra\\AppData\\Local\\Temp\\rust_mozprofileLrUkYD"
+1627318588371	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Sandra\\AppData\\Local\\Temp\\rust_mozprofileLrUkYD\\search.json.mozlz4", (void 0)))
+1627318590081	Marionette	INFO	Listening on port 56047
+1627318590161	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.error: services.settings: 
+  main/doh-providers Signature failed  InvalidSignatureError: Invalid content signature (main/doh-providers)
+console.error: services.settings: 
+  main/doh-providers local data was corrupted
+console.warn: services.settings: main/doh-providers Signature verified failed. Retry from scratch
+console.error: services.settings: 
+  main/doh-config Signature failed  InvalidSignatureError: Invalid content signature (main/doh-config)
+console.error: services.settings: 
+  main/doh-config local data was corrupted
+console.warn: services.settings: main/doh-config Signature verified failed. Retry from scratch
+console.log: WebExtensions: reset-default-search: starting.
+console.log: WebExtensions: reset-default-search: No addons in our list are installed.
+JavaScript error: , line 0: NS_ERROR_NOT_AVAILABLE
+1627319367412	Marionette	INFO	Stopped listening on port 56047
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1628008448234	geckodriver	INFO	Listening on 127.0.0.1:58012
+1628008451266	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Sandra\\AppData\\Local\\Temp\\rust_mozprofileB3ZfEf"
+1628008451596	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Sandra\\AppData\\Local\\Temp\\rust_mozprofileB3ZfEf\\search.json.mozlz4", (void 0)))
+1628008453581	Marionette	INFO	Listening on port 58021
+1628008453944	Marionette	WARN	TLS certificate errors will be ignored for this session
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x390158,name=PContent::Msg_InsertNewFocusActionId) Closed channel: cannot send/recv
+
+
+###!!! [Parent][MessageChannel] Error: (msgtype=0x390079,name=PContent::Msg_DestroyBrowsingContextGroup) Closed channel: cannot send/recv
+
+
+###!!! [Parent][MessageChannel] Error: (msgtype=0x390079,name=PContent::Msg_DestroyBrowsingContextGroup) Closed channel: cannot send/recv
+
+
+###!!! [Parent][MessageChannel] Error: (msgtype=0x390079,name=PContent::Msg_DestroyBrowsingContextGroup) Closed channel: cannot send/recv
+
+
+###!!! [Parent][MessageChannel] Error: (msgtype=0x390079,name=PContent::Msg_DestroyBrowsingContextGroup) Closed channel: cann
+###!!! [Child][MessageChannel] Error: (msgtype=0x390158,name=PContent::Msg_InsertNewFocusActionId) Closed channel: cannot send/recv
+
+1628181396060	geckodriver	INFO	Listening on 127.0.0.1:56882
+1628181399073	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Sandra\\AppData\\Local\\Temp\\rust_mozprofilekugXAj"
+1628181399467	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\Sandra\\AppData\\Local\\Temp\\rust_mozprofilekugXAj\\search.json.mozlz4", (void 0)))
+1628181401640	Marionette	INFO	Listening on port 56892
+1628181401764	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.error: services.settings: 
+  main/doh-providers Signature failed  InvalidSignatureError: Invalid content signature (main/doh-providers)
+console.error: services.settings: 
+  main/doh-providers local data was corrupted
+console.warn: services.settings: main/doh-providers Signature verified failed. Retry from scratch
+console.error: services.settings: 
+  main/doh-config Signature failed  InvalidSignatureError: Invalid content signature (main/doh-config)
+console.error: services.settings: 
+  main/doh-config local data was corrupted
+console.warn: services.settings: main/doh-config Signature verified failed. Retry from scratch
+console.log: WebExtensions: reset-default-search: starting.
+console.log: WebExtensions: reset-default-search: No addons in our list are installed.
+JavaScript error: , line 0: NS_ERROR_NOT_AVAILABLE
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x390158,name=PContent::Msg_InsertNewFocusActionId) Closed channel: cannot send/recv
+

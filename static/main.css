@@ -42,7 +42,7 @@ line-height: 1.5;
 text-align: center;
 }
 div {
-background: #bf2871;
+background: #7f22bd;
 color: #f7eff3;
 border-radius: 80px;
 padding: 0.1rem 1rem;
@@ -68,7 +68,7 @@ text-decoration: underline;
 }
 /* media queries */
 @media screen and ( max-width: 750px ) {
-body { background: #bf2871; }
+body { background: #7f22bd; }
 }
 
 /* .dropdown.dropdown-scroll .dropdown-list{
