@@ -1,8 +1,0 @@
-0,1,2,3,4,Bière,Prix_total,Prix_unitaire,Quantité,Vendeur
-,,,,,tETS,10,5,2,S
-,,,,,test,5,5,1,sa
-,,,,,testse,10,10,1,sandra
-Total,"0         S
-0        sa
-0    sandra
-Name: Vendeur, dtype: object",4.0,,25.0,,,,,
