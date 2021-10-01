@@ -7,5 +7,5 @@ Application de gestion de stock d'une cave à bières
 - Edition d'une facture
 
 Comment l'utiliser ?
-- Créer la base de données
-- Lancer le script app.py et copier-coller l'url donnée dans la console
+- Créer la base de données (**Création BDD.py**)
+- Lancer le script **app.py** et copier-coller l'url donnée dans la console
