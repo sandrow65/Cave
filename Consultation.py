@@ -5,7 +5,6 @@ from datetime import date
 def consulter_stock() :
 
     today = date.today().strftime('%Y%m%d')
-    print(today)
 
     con = sqlite3.connect('Cave_A_Bieres.db')
 

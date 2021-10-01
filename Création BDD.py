@@ -1,5 +1,6 @@
 import sqlite3
 
+
 def creation_BDD() :
 
     con = sqlite3.connect('Cave_A_Bieres.db')
@@ -21,31 +22,32 @@ def creation_BDD() :
     # Create table VENTES
     cur.execute('''DROP TABLE HISTO_VENTES''')
     cur.execute('''CREATE TABLE HISTO_VENTES
-                (IDX int, 
-                ID_facture int,
+                (IDX integer primary key AUTOINCREMENT, 
+                ID_facture integer,
                 DATE datetime, 
                 VENDEUR text, 
+                BIERE text,
                 QUANTITE real, 
                 PRIX real)''')
 
     # Create table VENDEURS
     cur.execute('''DROP TABLE VENDEURS''')
     cur.execute('''CREATE TABLE VENDEURS 
-                (IDX int, 
+                (IDX integer, 
                 NOM_VENDEUR text)''')
     cur.execute('''INSERT INTO VENDEURS VALUES (1, 'Sandra'), (2, 'Thierry')''')
 
     # Create table DISTRIBUTEURS
     cur.execute('''DROP TABLE DISTRIBUTEURS''')
     cur.execute('''CREATE TABLE DISTRIBUTEURS 
-                (IDX int, 
+                (IDX integer, 
                 NOM_DISTRI text)''')
     cur.execute('''INSERT INTO DISTRIBUTEURS VALUES (1, 'TestDistri1'), (2, 'TestDistri2'), (3,'TestDistri3')''')
 
     # Create table BRASSERIES
     cur.execute('''DROP TABLE BRASSERIES''')
     cur.execute('''CREATE TABLE BRASSERIES 
-                (IDX int, 
+                (IDX integer, 
                 NOM_BRASSERIE text)''')
     cur.execute('''INSERT INTO BRASSERIES VALUES (1, 'IRON'), (2, 'La débauche'), (3, 'La superbe'), (4, 'L Excuse')''')
 

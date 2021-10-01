@@ -62,18 +62,15 @@ def facturation():
     liste_vendeurs = [vendeur for t in get_liste_vendeurs for vendeur in t]
     get_liste_bieres = cur.execute('''SELECT BIERE FROM STOCK WHERE QUANTITE > 0''').fetchall()
     liste_bieres= [biere for t in get_liste_bieres for biere in t]
-    print(liste_bieres)
     if request.method == 'POST' :
-
         liste_bieres = pd.DataFrame(columns=["Bière","Vendeur","Quantité","Prix_unitaire"])
         for input in request.form :
-            print("request:", request.form.get("vendeur"))
             row = request.form[input].split(";")
-            print("row : ", row)
             liste_bieres = liste_bieres.append(pd.DataFrame([[row[2],row[3],int(row[0]), int(row[1])]], columns=["Bière","Vendeur","Quantité","Prix_unitaire"]))
-        print(liste_bieres)
+        print("Liste bières :\n", liste_bieres)
+        Vente(liste_bieres).MAJ_stock()
         facture = Vente(liste_bieres).editer_facture()
-        print(facture)
+        print("facture : \n",facture)
     return render_template('facture.html', liste_vendeurs = liste_vendeurs, liste_bieres = liste_bieres)
 
 if __name__ == '__main__':

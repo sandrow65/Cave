@@ -15,11 +15,13 @@ def approvisionner(nom_biere, brasserie, distributeur, quantite, prix_achat, pri
     print(max_idx)
 
     bieres_existantes = cur.execute('''SELECT BIERE FROM STOCK''').fetchall()
+    bieres_existantes = [b[0] for b in bieres_existantes]
+    print("Bières existantes : \n",bieres_existantes, nom_biere in bieres_existantes)
 
     if nom_biere in bieres_existantes :
         # La bière existe déjà dans le stock
         params = [today, quantite, nom_biere]
-        cur.execute('''UPDATE STOCK SET DATE_CHGT = ?, QUANTITE = QUANTITE + ? WHERE BIERE = ?''')
+        cur.execute('''UPDATE STOCK SET DATE_CHGT = ?, QUANTITE = QUANTITE + ? WHERE BIERE = ?''', params)
     else :
         # Nouveau stock
         params = [max_idx+1, today, nom_biere, brasserie, distributeur, quantite, prix_achat, prix_vente]
