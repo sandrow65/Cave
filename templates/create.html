@@ -6,10 +6,10 @@
 {% block content %}
 <h1>{% block title %} Créer un nouveau stock {% endblock %}</h1>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" /> 
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script> -->
 
 <script> 
     $(document).ready(function() {
@@ -18,61 +18,75 @@
 </script>
 
 <form method="post">
-    <div class="form-group">
-        <label for="title">Bière : </label>
-        <select name="biere" id="sel_biere" class = "selectpicker form-control" searchable = "Search..." style="width:200px">
-            {% for biere in bieres %}
-               <option value="{{biere[0]}}" SELECTED>{{biere[0]}}</option>
-            {% endfor %}
-        </select>
-        <input type = "text" id = "new_beer"></input>
-        <button type="button" onclick="Add_new_beer()">Ajouter une bière</button>
-    </div>
+    
 
-    <div class="form-group">
-        <label for="content">Distributeur :</label>
-        <select name="distri" id="sel_distrib" class = "selectpicker form-control" searchable = "Search..." style="width:200px">
-            {% for distri in distributeurs %}
-                <option value="{{distri[0]}}" SELECTED>{{distri[0]}}</option>
-            {% endfor %}
-        </select>
-        <input type = "text" id = "new_distrib"></input>
-        <button type="button" onclick="Add_new_distrib()">Ajouter un distributeur</button>
-    </div>
+    <div style="width: 90%; display: table;">
+        <div style="display: table-row">
+        
+            <div style="display: table-cell;">
+                <label for="title">Bière : </label>
+                <select name="biere" id="sel_biere" class = "selectpicker form-control" searchable = "Search..." style="width:200px">
+                    {% for biere in bieres %}
+                       <option value="{{biere[0]}}" SELECTED>{{biere[0]}}</option>
+                    {% endfor %}
+                </select>
+                <input type = "text" id = "new_beer" placeholder="Entrer une nouvelle bière"></input>
+                <button type="button" onclick="Add_new_beer()">Ajouter une bière</button>
+            </div>
 
-    <div class="form-group">
-        <label for="content">Brasserie :</label>
-        <select name="brass" id="sel_brass" class = "selectpicker form-control" searchable = "Search..." style="width:200px">
-            {% for brass in brasseries %}
-                <option value="{{brass[0]}}" SELECTED>{{brass[0]}}</option>
-            {% endfor %}
-        </select>
-        <input type = "text" id = "new_brass"></input>
-        <button type="button" onclick="Add_new_brass()">Ajouter une brasserie</button>
+            <div style="display: table-cell;">
+                <label for="content">Distributeur :</label>
+                <select name="distri" id="sel_distrib" class = "selectpicker form-control" searchable = "Search..." style="width:200px">
+                    {% for distri in distributeurs %}
+                        <option value="{{distri[0]}}" SELECTED>{{distri[0]}}</option>
+                    {% endfor %}
+                </select>
+                <input type = "text" id = "new_distrib" placeholder="Entrer un nouveau distributeur"></input>
+                <button type="button" onclick="Add_new_distrib()">Ajouter un distributeur</button>
+            </div>
+        
+            <div style="display: table-cell;">
+                <label for="content">Brasserie :</label>
+                <select name="brass" id="sel_brass" class = "selectpicker form-control" searchable = "Search..." style="width:200px">
+                    {% for brass in brasseries %}
+                        <option value="{{brass[0]}}" SELECTED>{{brass[0]}}</option>
+                    {% endfor %}
+                </select>
+                <input type = "text" id = "new_brass" placeholder="Entrer une nouvelle brasserie"></input>
+                <button type="button" onclick="Add_new_brass()">Ajouter une brasserie</button>
+            </div>
+        </div>
+        
     </div>
-
-    <div class="form-group">
-        <label for="content">Quantité : </label>
-        <input type="int" name="quantite"
-               placeholder="Entrer la quantité" class="form-control"
-               value="{{ request.form['quantite'] }}"></input>
+    
+    <div style="width: 90%; display: table;">
+        <div style="display: table-row">
+            <div style="display: table-cell;">
+                <label for="content">Quantité : </label>
+                <input type="int" name="quantite"
+                       placeholder="Entrer la quantité" class="form-control"
+                       value="{{ request.form['quantite'] }}"></input>
+            </div>
+        
+            <div style="display: table-cell;">
+                <label for="content">Prix d'achat : </label>
+                <input type="float" name="prix_achat"
+                       placeholder="Entrer le prix d'achat" class="form-control"
+                       value="{{ request.form['prix_achat'] }}"></input>
+            </div>
+        
+            <div style="display: table-cell;">
+                <label for="content">Prix de vente : </label>
+                <input type="float" name="prix_vente"
+                       placeholder="Entrer le prix de vente" class="form-control"
+                       value="{{ request.form['prix_vente'] }}"></input>
+            </div>
+        </div>
+        
     </div>
-
-    <div class="form-group">
-        <label for="content">Prix d'achat : </label>
-        <input type="float" name="prix_achat"
-               placeholder="Entrer le prix d'achat" class="form-control"
-               value="{{ request.form['prix_achat'] }}"></input>
-    </div>
-
-    <div class="form-group">
-        <label for="content">Prix de vente : </label>
-        <input type="float" name="prix_vente"
-               placeholder="Entrer le prix de vente" class="form-control"
-               value="{{ request.form['prix_vente'] }}"></input>
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary" onClick="return confirm('Confirmez-vous cet approvisionnement ?')">Submit</button>
+    
+    <div style="text-align:center">
+        <button type="submit" class="btn btn-primary" onClick="return confirm('Confirmez-vous cet approvisionnement ?')">Ajouter les données</button>
     </div>
 </form>
 

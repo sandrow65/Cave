@@ -8,7 +8,7 @@
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-<link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" /> 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />  
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
 
 <script> 
@@ -47,10 +47,29 @@
                     <td><input type="float"></td>
                 </tr>
             </tbody>
+            <tfoot>
+                <tr>
+                    <th>Total</th>
+                    <th><span>{{nom_vendeur}}</span></th>
+                    <th><span>{{qte_totale}}</span></th>
+                    <th><span>{{prix_total}}</span></th>
+                </tr>
+            </tfoot>
         </table>
+
     </form>
-    <button id="submit_rows" onClick="return confirm('Imprimer la facture ?')">Submit</button>
-    <button id="add_rows">+</button>
+    <!-- <button id="add_rows">Ajouter</button>
+    <button id="submit_rows" onClick="return confirm('Imprimer la facture ?')">Créer la facture et mettre à jour le stock</button> -->
+    <div style="width: 90%; display: table;">
+        <div style="display: table-row">
+            <div style="display: table-cell;">
+                <button id="add_rows">Ajouter</button>
+            </div>
+            <div style="display: table-cell;">
+                <button id="submit_rows" onClick="return confirm('Imprimer la facture ?')">Créer la facture et mettre à jour le stock</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -103,21 +122,21 @@
         console.log(obj);
         // send the data to the server, see the console for a logging message for success
         $.post("http://192.168.1.174:5000/facturation", obj, (data, status) => console.log("Status: " + status));
-        $('#table tbody').empty();
-        $("#table tbody").append('<tr>\
-            <td><select name="biere" class = "selectpicker form-control searchable = "Search..." style="width:200px"">\
-                    {% for b in liste_bieres %}\
-                        <option value="{{ b }}">{{b}}</option>\
-                    {% endfor %}\
-                </select></td>\
-            <td><select name="vendeur" class = "selectpicker form-control searchable = "Search..." style="width:100px"">\
-                    {% for v in liste_vendeurs %}\
-                        <option value="{{ v }}">{{v}}</option>\
-                    {% endfor %}\
-                </select></td>\
-            <td><input type="int"></td>\
-            <td><input type="float"></td></tr>');
-        $('.form-control').select2();
+        // $('#table tbody').empty();
+        // $("#table tbody").append('<tr>\
+        //     <td><select name="biere" class = "selectpicker form-control searchable = "Search..." style="width:200px"">\
+        //             {% for b in liste_bieres %}\
+        //                 <option value="{{ b }}">{{b}}</option>\
+        //             {% endfor %}\
+        //         </select></td>\
+        //     <td><select name="vendeur" class = "selectpicker form-control searchable = "Search..." style="width:100px"">\
+        //             {% for v in liste_vendeurs %}\
+        //                 <option value="{{ v }}">{{v}}</option>\
+        //             {% endfor %}\
+        //         </select></td>\
+        //     <td><input type="int"></td>\
+        //     <td><input type="float"></td></tr>');
+        // $('.form-control').select2();
     });
     
 </script>

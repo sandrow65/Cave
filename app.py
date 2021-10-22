@@ -52,7 +52,7 @@ def stock():
     df_stock = consulter_stock()
     return render_template('stock.html', tables=[df_stock.to_html(classes='data')], titles=df_stock.columns.values)
 
-@app.route('/facturation', methods=('GET', 'POST'))
+@app.route('/facturation', methods=["GET","POST"])
 def facturation():
     con = sqlite3.connect('Cave_A_Bieres.db')
 
@@ -62,16 +62,25 @@ def facturation():
     liste_vendeurs = [vendeur for t in get_liste_vendeurs for vendeur in t]
     get_liste_bieres = cur.execute('''SELECT BIERE FROM STOCK WHERE QUANTITE > 0''').fetchall()
     liste_bieres= [biere for t in get_liste_bieres for biere in t]
+    vendeur = ""
+    total_quantite = 0
+    total_prix = 0
     if request.method == 'POST' :
         liste_bieres = pd.DataFrame(columns=["Bière","Vendeur","Quantité","Prix_unitaire"])
         for input in request.form :
             row = request.form[input].split(";")
             liste_bieres = liste_bieres.append(pd.DataFrame([[row[2],row[3],int(row[0]), int(row[1])]], columns=["Bière","Vendeur","Quantité","Prix_unitaire"]))
-        print("Liste bières :\n", liste_bieres)
         Vente(liste_bieres).MAJ_stock()
         facture = Vente(liste_bieres).editer_facture()
-        print("facture : \n",facture)
-    return render_template('facture.html', liste_vendeurs = liste_vendeurs, liste_bieres = liste_bieres)
+        print("facture : \n",facture.loc[facture["Bière"] == 'Total'])
+        vendeur_init = request.form.get('nom_vendeur')
+        vendeur = facture.loc[facture["Bière"] == 'Total']["Vendeur"].values[0]
+        qte_init = request.form.get('qte_total')
+        total_quantite = facture.loc[facture["Bière"] == 'Total']["Quantité"].values[0]
+        prix_init = request.form.get('prix_total')
+        total_prix = facture.loc[facture["Bière"] == 'Total']["Prix_total"].values[0]
+        return {'nom_vendeur':vendeur, 'qte_total':total_quantite, 'prix_total':total_prix}
+    return render_template('facture.html', liste_vendeurs = liste_vendeurs, liste_bieres = liste_bieres, nom_vendeur = vendeur, qte_totale=total_quantite, prix_total=total_prix)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0",debug=True)
