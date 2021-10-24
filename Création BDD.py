@@ -15,7 +15,7 @@ def creation_BDD() :
                 BIERE text, 
                 BRASSERIE text,
                 DISTRIBUTEUR text, 
-                QUANTITE real, 
+                QUANTITE integer, 
                 PRIX_ACHAT real, 
                 PRIX_VENTE real)''')
 

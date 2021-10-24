@@ -2,12 +2,60 @@
 <html lang="fr">
     {% extends 'base.html' %}
 
+
+    
     {% block content %}
-        <h1>{% block title %} Consultation du stock {% endblock %}</h1>
-        {% for table in tables %}
-                <!-- {{titles[loop.index]}} -->
-                <span>{{ table|safe }}</span>
-            {% endfor %}
-            <hr>
-    {% endblock %}
+    <h1>{% block title %} Consultation du stock {% endblock %}</h1>
+
+    <div style="width: 90%; display: table;">
+        <div style='display: table-row;'>
+            <label for="title">Rechercher une bière : </label>
+            <input id='myInput' onkeyup='myFunction()' type='text'>
+        </div>
+    </div>
+
+    <div id='table-wrapper'>
+        <div id="table-scroll">
+            <table id = "myTable" class = "table-striped header-fixed">
+                {% for table in tables %}
+                    <span>{{ table|safe }}</span>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+<script>
+    function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        console.log(table);
+        tr = table.getElementsByTagName("tr");
+        console.log('tr ' + tr.length);
+        for (i = 0; i < tr.length; i++) {
+            // td = tr[i].getElementsByTagName("td")[0];
+            alltags = tr[i].getElementsByTagName("td");
+            isFound = false;
+            for(j=0; j< alltags.length; j++) {
+                td = alltags[j];
+                console.log('td'+td);
+                if (td) {
+                    console.log('found');
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                        j = alltags.length;
+                        isFound = true;
+                    }
+                    }       
+                }
+            if(!isFound && tr[i].className !== "header") {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+</script>
+    
+{% endblock %}
 </html>
