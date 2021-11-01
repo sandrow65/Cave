@@ -55,7 +55,7 @@ class Vente():
 
         self.liste_bieres = self.liste_bieres.append(pd.DataFrame([["Total", vendeur.values[0], total_quantite, '', total_prix]], columns = self.liste_bieres.columns))
 
-        self.liste_bieres.to_csv("Facture_"+str(self.max_id_facture)+".csv", index=False)
+        self.liste_bieres.to_csv("factures/Facture_"+str(self.max_id_facture)+".csv", index=False)
 
         print("La facture a été éditée.\n")
 

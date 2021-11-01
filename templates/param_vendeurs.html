@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% extends 'base.html' %}
+
+    {% block content %}
+        <h1>{% block title %} Paramétrages {% endblock %}</h1>
+        
+        <h2>{% block title2 %} Liste des vendeurs {% endblock %}</h2>
+    
+<div id = "vendeurs">
+
+    <form method="POST">
+        <div id = "vendeursTable" class = "table-wrapper" style="width:auto; text-align:center">
+            <table  class = "table table-fixed-header">
+                <thead>
+                    <tr>
+                        <th>Vendeur</th>
+                        <!-- <th>Action</th> -->
+                    </tr>
+                </thead>
+                {% for vendeur in liste_vendeurs %}
+                    <tr>
+                        <td><span id = "id_{{vendeur}}">{{ vendeur|safe }}</span></td>
+                        <!-- <td><button id = "suppression" onChange = "deleteVendeur(this.closest('tr').rowIndex)">Supprimer</button></td> -->
+                    </tr>
+                {% endfor %}
+                <tfoot>
+                    <tr>
+                        <td>
+                            <input type="text" name="vendeur" id = "new_vendeur"
+                                placeholder="Entrer un nouveau vendeur" 
+                                value="{{ request.form['vendeur'] }}"></input>
+                            <!-- <input type = "text" name = "vendeur" id = "new_vendeur" placeholder="Entrer un nouveau vendeur" style="width:auto;" value = "{{request.form['vendeur']}}"></input> -->
+                            <button type="submit" class="btn btn-secondary btn-sm" onclick="Add_new_vendeur()">Ajouter un vendeur</button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </form>
+
+    <script>
+        function Add_new_vendeur() {
+            var v = document.getElementById("new_vendeur").value;
+            $("#vendeurs tbody").append('<tr><td><span>'+ v +'</span></td></tr>');
+            // document.getElementById("new_vendeur").value = "";
+    }
+    </script>
+
+</div>
+    {% endblock %}
+</html>

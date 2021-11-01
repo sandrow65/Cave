@@ -30,6 +30,17 @@ def creation_BDD() :
                 QUANTITE real, 
                 PRIX real)''')
 
+    # Create table INVENTAIRES
+    cur.execute('''DROP TABLE INVENTAIRES''')
+    cur.execute('''CREATE TABLE INVENTAIRES
+                (IDX integer primary key AUTOINCREMENT, 
+                ID_invent integer,
+                DATE datetime, 
+                INVENTORISTE text, 
+                BIERE text,
+                QUANTITE_THEO real, 
+                QUANTITE_REEL real)''')
+
     # Create table VENDEURS
     cur.execute('''DROP TABLE VENDEURS''')
     cur.execute('''CREATE TABLE VENDEURS 

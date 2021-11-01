@@ -1,142 +1,177 @@
 html {
-font-size: 90%;
+font-size: 1rem;
 box-sizing: border-box;
-position: relative;
-min-width: 1024px;
-min-height: 768px;
-height: 100%;
+position: fixed;
+/* min-width: auto; 
+min-height: auto; */
+height: auto;
+/* display:block; */
+width:100%;
+/* overflow:hidden; */
+}
+label {
+  font-size:150%;
+}
+.btn{
+  background:#5865F2;
+}
+.navbar {
+  position: fixed; /*relative;*/
+  top:0;
+  left:0;
+  width:100%;
+  display: flex;
+  flex-wrap: wrap; 
+  align-items: center;
+  justify-content: space-between; 
 }
 .items {
   display: flex;
   justify-content: space-between;
 }
-/* .container { */
-  /* display: flex; */
-  /* display: grid;
+.container { 
+  /* display: flex;  */
+  display: block;
   grid-template-columns: 1fr;
   align-content: flex-start;
-  gap: 16px;
-  padding: 16px;
-} */
-*, *:before, *:after {
+  gap: 5%;
+  padding: 0%;
+} 
+.table-wrapper
+{
+  width: auto;
+  height: 400px;
+  overflow: auto;
+  text-align: center;
+  border: 1px solid black;
+}
+table
+{
+  width : 100%;
+  text-align : center;
+  border-collapse : collapse;
+}
+table tr th, table tr td {
+  /* border : 2px solid; */
+  border: 1px dashed #5865F2;
+}
+table thead th {
+  /* position: -webkit-sticky; */
+  color:#5865F2;
+  position : sticky;
+  top : 0;
+  text-align : center;
+  background-color: #36393F;
+  line-height: 40px;
+  /* padding: 5px; */
+  /* margin:5px; */
+  width:auto;
+}
+td
+{
+  color:#5865F2;
+  width: auto;
+  height: auto;
+  /* padding: 5px; */
+  /* margin:5px; */
+  top:0;
+  line-height: 20px;
+  empty-cells:show;
+}
+*,  *:before {
 box-sizing: inherit;
-white-space: pre;
+white-space: pre-line;
 }
-#table-wrapper {
-  position:relative;
+/* here is the trick */
+table tbody:nth-of-type(1) tr:nth-of-type(1) td {
+  border-top: none !important;
 }
-#table-scroll {
-  height:400px;
-  overflow:auto;  
-  margin-top:0px;
+table thead th {
+  border-top: none !important;
+  border-bottom: none !important;
+  /* box-shadow: inset 0 2px 0 #000000,
+              inset 0 -2px 0 #000000; */
+  /* padding: 1px 0; */
 }
-#table-scroll thead th {
-  position: sticky; 
-  top: 0; 
-  z-index: 0; 
+/* and one small fix for weird FF behavior, described in https://stackoverflow.com/questions/7517127/ */
+table thead th {
+  background-clip: padding-box;
 }
-#table-scroll tbody td {
-  position: sticky; 
-  left : 0;
+input {
+  text-align:center;
+  vertical-align: center;
 }
-#table-wrapper table {
-  width:100%;
+.form-control {
+  display: flex;
+  width: auto; 
+  vertical-align: middle;
 }
-#table-wrapper table * {
-  color:#648880;
-}
-#table-wrapper table thead th .text {
-  position:sticky;   
-  top:-20px;
-  z-index:5;
-  height:400px;
-  width:100%;
-  /* border:1px solid red; */
-}
-table, th, td {
-    empty-cells:show;
-    border: 1px solid #fff;
-    border-collapse: collapse;
-}
-th, td {
-    padding: 10px;
-}
-thead {
-    line-height: 40px;
-    text-align: center;
-  }
-thead th {
-    color: #648880;
-    font-size: 15px;
-    text-align: center;
-  }
 body {
-margin: 0;
-height: 100vh;
-font-family: 'Verdana', sans-serif;
-color: #333;
-background: #d6cfd2;
-display: flex;
-justify-content: center;
-align-items: center;
+  margin: 0;
+  height: auto;
+  max-height:70%;
+  font-family: 'Arial';
+  color: #5865F2;
+  background: #36393F;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 h1 {
-font-family: 'Arial Black', sans-serif;
-font-size: 5rem;
-margin: 0;
-padding: 0;
-line-height: 0.5;
-text-align: center;
+  font-family: 'Arial Black', sans-serif;
+  font-size: 3rem;
+  /* margin: 0;
+  padding: 0; */
+  line-height: 0.5;
+  text-align: center;
+}
+h2 {
+  font-family: 'Arial Black', sans-serif;
+  font-size: 1.5rem;
+  /* margin: 0;
+  padding: 0; */
+  line-height: 0.5;
+  text-align: center;
 }
 div {
-background: #7f22bd;
-color: #f7eff3;
-border-radius: 80px;
-padding: 0.1rem 0.5rem;
-margin: 0 2rem;
-white-space: pre;
+  background: #36393F;
+  color: #5865F2;
+  border-radius: 20px;
+  padding-top:0;
+  padding-bottom:0;
+  padding-left:0;
+  padding-right:0;
+  margin: 0 0rem;
+  /* white-space: pre; */
+  height: auto;
+  width: auto;
+}
+.div-for-select
+{
+  margin-left:20%; 
+  margin-right:20%; 
+  margin-top:0; 
+  margin-bottom:0; 
+  padding:0px;
 }
 p {
-font-size: 1.5rem;
-line-height: 1.4;
-text-align: center;
-white-space: pre;
+  font-size: 1.5rem;
+  line-height: 1.4;
+  text-align: center;
+  white-space: pre;
 }
 /* links */
 a {
-color: #fff;
-font-weight: bold;
-text-decoration: none;
+  color: #5865F2;
+  font-weight: bold;
+  text-decoration: none;
 }
 a:hover {
-color: #fc74b6;
-font-weight: bold;
-text-decoration: underline;
+  color: #fce874;
+  font-weight: bold;
+  text-decoration: underline;
 }
 /* media queries */
-@media screen and ( max-width: 750px ) {
+/* @media screen and ( max-width: 100% ) {
 body { background: #7f22bd; }
-}
-
-/* .dropdown.dropdown-scroll .dropdown-list{
-  max-height: 233px;
-  overflow-y: auto;
-  list-style-type: none;
-  padding-left: 10px;
-  margin-bottom: 0px;
-}
-.dropdown-list  li{
-  font-size: 14px;
-  height: 20px;
-}
-
-.dropdown-list  li > a{
-  color: black;
-}
-.dropdown-list a:hover{
- color: black;
-}
-
-.dropdown-list li:hover{
-  background-color: lightgray;
 } */

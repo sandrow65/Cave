@@ -7,16 +7,22 @@
     {% block content %}
     <h1>{% block title %} Consultation du stock {% endblock %}</h1>
 
-    <div style="width: 90%; display: table;">
+    <div style="width:100%; display: table;">
         <div style='display: table-row;'>
-            <label for="title">Rechercher une bière : </label>
-            <input id='myInput' onkeyup='myFunction()' type='text'>
+            <div style="display: table-cell; padding:0% 0% 0% 10%">
+                <label for="title">Rechercher une bière : </label>
+                <input id='searchInput' onkeyup='searchItem()' type='text'>
+            </div>
+            <div style="display: table-cell; padding:0% 0% 0% 10%">
+                <label for="title">Rechercher une brasserie : </label>
+                <input id='searchInput2' onkeyup='searchItem2()' type='text'>
+            </div>
         </div>
     </div>
 
-    <div id='table-wrapper'>
-        <div id="table-scroll">
-            <table id = "myTable" class = "table-striped header-fixed">
+    <div>
+        <div id = "stockTable" class = "table-wrapper" style="width:auto; text-align:center">
+            <table  class = "table table-fixed-header">
                 {% for table in tables %}
                     <span>{{ table|safe }}</span>
                 {% endfor %}
@@ -25,32 +31,56 @@
     </div>
 
 <script>
-    function myFunction() {
+    function searchItem() {
         var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("myInput");
+        input = document.getElementById("searchInput");
         filter = input.value.toUpperCase();
-        table = document.getElementById("myTable");
-        console.log(table);
+        console.log(filter);
+        table = document.getElementById("stockTable");
         tr = table.getElementsByTagName("tr");
-        console.log('tr ' + tr.length);
-        for (i = 0; i < tr.length; i++) {
-            // td = tr[i].getElementsByTagName("td")[0];
-            alltags = tr[i].getElementsByTagName("td");
+        // loop on all rows of the table
+        for (i = 1; i < tr.length; i++) {
+            // search only on "BIERE" column
+            td = tr[i].getElementsByTagName("td")[1];
+            console.log(td.textContent);
+            txtValue = td.textContent || td.innerText;
             isFound = false;
-            for(j=0; j< alltags.length; j++) {
-                td = alltags[j];
-                console.log('td'+td);
-                if (td) {
-                    console.log('found');
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                        j = alltags.length;
-                        isFound = true;
-                    }
-                    }       
-                }
+            // test if input found
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                console.log("found");
+                tr[i].style.display = "";
+                isFound = true;
+            }
+            // item not found, hide the row
             if(!isFound && tr[i].className !== "header") {
+                console.log("not found");
+                tr[i].style.display = "none";
+            }
+        }
+    }
+    function searchItem2() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchInput2");
+        filter = input.value.toUpperCase();
+        console.log(filter);
+        table = document.getElementById("stockTable");
+        tr = table.getElementsByTagName("tr");
+        // loop on all rows of the table
+        for (i = 1; i < tr.length; i++) {
+            // search only on "BIERE" column
+            td = tr[i].getElementsByTagName("td")[2];
+            console.log(td.textContent);
+            txtValue = td.textContent || td.innerText;
+            isFound = false;
+            // test if input found
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                console.log("found");
+                tr[i].style.display = "";
+                isFound = true;
+            }
+            // item not found, hide the row
+            if(!isFound && tr[i].className !== "header") {
+                console.log("not found");
                 tr[i].style.display = "none";
             }
         }
