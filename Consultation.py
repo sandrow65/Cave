@@ -45,4 +45,20 @@ def consulter_stock() :
 
     return stock_global
 
+def consulter_histo_ventes() :
+
+    con = sqlite3.connect('Cave_A_Bieres.db')
+
+    cur = con.cursor()
+
+    get_histo_ventes = pd.DataFrame(cur.execute('''SELECT * FROM HISTO_VENTES''').fetchall(), columns=["IDX","N° de la facture","Date de la vente","Vendeur","Bière","Quantité","Prix de vente"]).drop(columns=["IDX"])
+    get_histo_ventes["Prix total"] = get_histo_ventes["Prix de vente"] * get_histo_ventes["Quantité"]
+    get_histo_ventes["Date de la vente"] = pd.to_datetime(get_histo_ventes["Date de la vente"]).dt.strftime("%d %B %Y à %Hh%M")
+    con.commit()
+
+    con.close()
+
+    return get_histo_ventes
+
+
 # consulter_stock()

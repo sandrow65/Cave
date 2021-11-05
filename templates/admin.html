@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% extends 'base.html' %}
+
+    {% block content %}
+        <h1>{% block title %} Administration {% endblock %}</h1>
+    
+
+<div style="width: 100%; display: table;">
+    <div style="display: table-row; ">
+        <div style="display: table-cell; padding:0% 0% 0% 30%;text-align:center;font-size:200%; column-span: 2;">
+            Gestion des ventes
+        </div>
+    </div>
+    <div style="display: table-row">
+        <div style="display: table-cell; padding:0% 0% 0% 20%">
+            <button class="btn btn-secondary btn-lg" id="histo_ventes">Historique des ventes</button>
+        </div>
+        <div style="display: table-cell; padding:0% 0% 0% 0%">
+            <button class="btn btn-secondary btn-lg" id="liste_vendeurs">Liste des vendeurs</button>
+        </div>
+    </div>
+    <div style="display: table-row; ">
+        <div style="display: table-cell; padding:0% 0% 0% 30%;text-align:center;font-size:200%; column-span: 2;">
+            Gestion du stock
+        </div>
+    </div>
+    <div style="display: table-row"></div>
+        <div style="display: table-cell; padding:0% 0% 0% 20%">
+            <button class="btn btn-secondary btn-lg" id="stock">Consulter le stock</button>
+        </div>
+        <div style="display: table-cell; padding:0% 0% 0% 0%">
+            <button class="btn btn-secondary btn-lg" id="inventaire">Faire l'inventaire</button>
+        </div>
+    </div>
+</div>
+
+    <script>
+        $("#stock").click(function(){
+            location.href = window.location.href + "/stock"
+        })
+        $("#liste_vendeurs").click(function(){
+            location.href = window.location.href + "/liste_vendeurs"
+        })
+        $("#histo_ventes").click(function(){
+            location.href = window.location.href + "/histo_ventes"
+        })
+    </script>
+    {% endblock %}
+</html>
+

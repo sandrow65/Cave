@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% extends 'base.html' %}
+
+    {% block content %}
+        <h1>{% block title %} Administration {% endblock %}</h1>
+        
+        <h2>{% block title2 %} Historique des ventes {% endblock %}</h2>
+    
+        <div style="width:100%; display: table;">
+            
+            <div style='display: table-row;'>
+                <div style="display: table-cell; padding:0% 0% 0% 0%; font-size: 200%;">
+                    Rechercher par :
+                </div>
+                <div style="display: table-cell; padding:0% 0% 0% 0%; font-size:80%;">
+                    <label for="title">N° de facture : </label>
+                    <input id='searchInput' onkeyup='searchFacture()' type='text'>
+                </div>
+                <div style="display: table-cell; padding:0% 0% 0% 0%; font-size:80%;">
+                    <label for="title">Vendeur: </label>
+                    <input id='searchInput2' onkeyup='searchVendeur()' type='text'>
+                </div>
+                <div style="display: table-cell; padding:0% 0% 0% 0%; font-size:80%;">
+                    <label for="title">Bière: </label>
+                    <input id='searchInput3' onkeyup='searchBiere()' type='text'>
+                </div>
+            </div>
+            <div style='display: table-row;'>
+                <div style="display: table-cell; padding:0% 0% 0% 0%; font-size:80%;">
+                    <!-- <label for="title">Entre le : </label>
+                    <input id='date1' type='date'> -->
+                </div>
+                <div style="display: table-cell; padding:0% 0% 0% 0%; font-size:80%;">
+                    <label for="title">Entre le : </label>
+                    <input id='date1' type='date'>
+                </div>
+                <div style="display: table-cell; padding:0% 0% 0% 0%; font-size:80%;">
+                    <label for="title">Et le: </label>
+                    <input id='date2' type='date'>
+                </div>
+                <div style="padding:0% 0% 0% 0%; font-size:50%;">
+                    <button class="btn btn-secondary btn-lg" id="search_date">Rechercher</button>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div id = "tableVentes" class = "table-wrapper" style="width:auto; text-align:center">
+                <table  class = "table table-fixed-header">
+                    {% for table in table_ventes %}
+                        <span>{{ table|safe }}</span>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+    <script>
+        function searchFacture() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            console.log(filter);
+            table = document.getElementById("tableVentes");
+            tr = table.getElementsByTagName("tr");
+            // loop on all rows of the table
+            for (i = 1; i < tr.length; i++) {
+                // search only on "N° Facture" column
+                td = tr[i].getElementsByTagName("td")[0];
+                console.log(td.textContent);
+                txtValue = td.textContent || td.innerText;
+                isFound = false;
+                // test if input found
+                if (txtValue.toUpperCase() == filter) {
+                    console.log("found");
+                    tr[i].style.display = "";
+                    isFound = true;
+                }
+                // item not found, hide the row
+                if(!isFound && tr[i].className !== "header") {
+                    console.log("not found");
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+        function searchBiere() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput3");
+            filter = input.value.toUpperCase();
+            console.log(filter);
+            table = document.getElementById("tableVentes");
+            tr = table.getElementsByTagName("tr");
+            // loop on all rows of the table
+            for (i = 1; i < tr.length; i++) {
+                // search only on "N° Facture" column
+                td = tr[i].getElementsByTagName("td")[3];
+                console.log(td.textContent);
+                txtValue = td.textContent || td.innerText;
+                isFound = false;
+                // test if input found
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    console.log("found");
+                    tr[i].style.display = "";
+                    isFound = true;
+                }
+                // item not found, hide the row
+                if(!isFound && tr[i].className !== "header") {
+                    console.log("not found");
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+        function searchVendeur() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput2");
+            filter = input.value.toUpperCase();
+            console.log(filter);
+            table = document.getElementById("tableVentes");
+            tr = table.getElementsByTagName("tr");
+            // loop on all rows of the table
+            for (i = 1; i < tr.length; i++) {
+                // search only on "N° Facture" column
+                td = tr[i].getElementsByTagName("td")[2];
+                console.log(td.textContent);
+                txtValue = td.textContent || td.innerText;
+                isFound = false;
+                // test if input found
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    console.log("found");
+                    tr[i].style.display = "";
+                    isFound = true;
+                }
+                // item not found, hide the row
+                if(!isFound && tr[i].className !== "header") {
+                    console.log("not found");
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+    {% endblock %}
+</html>

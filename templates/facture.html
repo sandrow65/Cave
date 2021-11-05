@@ -22,6 +22,8 @@
 <div id = "facture">
 
     <form method="POST">
+        <button class="btn btn-secondary btn-sm" id="notes">Liste des notes</button>
+
         <div class = "table-wrapper" style="width:auto;">
             <table id="table" class = "table table-fixed-header">
                 <thead>
@@ -64,13 +66,16 @@
     </form>
     <div style="width: 100%; display: table;">
         <div style="display: table-row">
-            <div style="display: table-cell; padding:0% 0% 0% 10%">
+            <div style="display: table-cell; padding:0% 0% 0% 0%">
                 <button class="btn btn-secondary btn-lg" id="add_rows">Ajouter</button>
             </div>
-            <div style="display: table-cell; padding:0% 0% 0% 20%">
-                <button class="btn btn-secondary btn-lg" id="submit_rows" onClick="return confirm('Imprimer la facture ?')">Créer la facture et mettre à jour le stock</button>
+            <div style="display: table-cell; padding:0% 0% 10% 0%">
+                <button class="btn btn-secondary btn-lg" id="save">Enregistrer</button>
             </div>
             <div style="display: table-cell; padding:0% 0% 0% 10%">
+                <button class="btn btn-secondary btn-lg" id="submit_rows" onClick="return confirm('Imprimer la facture ?')">Créer la facture et mettre à jour le stock</button>
+            </div>
+            <div style="display: table-cell; padding:0% 0% 0% 0%">
                 <button class="btn btn-secondary btn-lg" id="empty_rows">Nouvelle facture</button>
             </div>
         </div>
@@ -94,7 +99,7 @@
             success : function(result){
                 $("#prix_unit_"+row_index).val(result.prix_unit);}
         });
-    }
+    };
 
     $("#add_rows").click(function() {
         var rowCount = $("#facture tr").length - 1; // idx de la ligne, -1 pour le header
@@ -142,10 +147,13 @@
             // increase the value of `n`
             n++;
         });
+        console.log("n"+n);
+        obj[`r${n}`] = [];
+        obj[`r${n}`].push("submit");
+        obj[`r${n}`] = obj[`r${n}`].join(";");
         // log the object to the console so you can see what we are sending
         console.log("obj : " + obj);
-        // send the data to the server, see the console for a logging message for success
-        // $.post(window.location.href, obj, (data, status) => console.log("Status: " + status));
+        // send the data to the server, and get totals
         $.ajax({
             type : "POST",
             url : window.location.href, 
@@ -154,8 +162,53 @@
                 $("#vendeur").html(result.nom_vendeur);
                 $("#total_quantite").html(result.qte_total);
                 $("#total_prix").html(result.prix_total);}
+        }); 
+    });
+    $("#save").click(function() {
+        // `obj` for storing the inputs, and the `n` to make unrepeated keys
+        var obj = {}, n = 0;
+        // loop over the rows
+        $("#facture tbody tr").each(function(ind, tr) {
+            console.log("n : " + n);
+            // add an array to the object
+            obj[`r${n}`] = [];
+            // loop over the inputs of this row
+            $(this).find("input").each(function(ind, input) {
+                // add the value of the input to the array and make sure to remove any semicolon since
+                // we will use it to separate the inputs
+                var val = input.value.replace(/;/g, "");
+                console.log("val input : " + val);
+                obj[`r${n}`].push(val);
+                });
+            $(this).find("select").each(function(ind, select) {
+                // add the value of the input to the array and make sure to remove any semicolon since
+                // we will use it to separate the inputs
+                var val = select.value.replace(/;/g, "");
+                console.log("val select : " + val);
+                obj[`r${n}`].push(val);
+                });
+            // no need for the array, just join it to a string of values separated by semicolons
+            obj[`r${n}`] = obj[`r${n}`].join(";");
+            // increase the value of `n`
+            n++;
         });
-        
+        console.log("n"+n);
+        obj[`r${n}`] = [];
+        obj[`r${n}`].push("save");
+        obj[`r${n}`] = obj[`r${n}`].join(";");
+        // log the object to the console so you can see what we are sending
+        console.log("obj : " + obj);
+        // send the data to the server, see the console for a logging message for success
+        $.post(window.location.href, obj, (data, status) => console.log("Status: " + status));
+        // $.ajax({
+        //     type : "POST",
+        //     url : window.location.href, 
+        //     data : obj, 
+        //     success : function(result){
+        //         $("#vendeur").html(result.nom_vendeur);
+        //         $("#total_quantite").html(result.qte_total);
+        //         $("#total_prix").html(result.prix_total);}
+        // }); 
     });
     $("#empty_rows").click(function() {
         $('#table tbody').empty();
