@@ -21,7 +21,7 @@ Application de gestion de stock d'une cave à bières composée de 3 modules.
 - Paramétrer les vendeurs
 - Faire l'inventaire
 
-Comment l'utiliser ?
+## Comment l'utiliser ?
 - Créer la base de données (**Création BDD.py**)
 - Lancer le script **app.py** et copier-coller l'url donnée dans la console
 - Naviguer à l'aide des différents boutons
