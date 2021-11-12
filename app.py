@@ -82,6 +82,10 @@ def facturation():
     # prix de la première bière pour affichage
     prix_init = cur.execute('''SELECT PRIX_VENTE FROM STOCK WHERE QUANTITE > 0''').fetchone()[0]
     liste_bieres_df = pd.DataFrame(columns=["Bière","Vendeur","Quantité","Prix_unitaire"])
+
+    con.commit()
+    con.close()
+
     vendeur = ""
     total_quantite = 0
     total_prix = 0
@@ -89,7 +93,11 @@ def facturation():
     if request.method == 'POST' :
         item_sent = list(request.form.to_dict().values())[0]
         if item_sent in liste_bieres:
+            con = sqlite3.connect('Cave_A_Bieres.db')
+            cur = con.cursor()
             prix_biere = cur.execute('''SELECT PRIX_VENTE FROM STOCK WHERE BIERE = ?''', [item_sent]).fetchone()[0]
+            con.commit()
+            con.close()
             return {'prix_unit' : prix_biere}
         else :
             l = len(request.form.to_dict())
@@ -133,9 +141,7 @@ def liste_notes() :
 @app.route('/facturation/notes/detail/<note>', methods = ["GET","POST"])
 @app.route('/facturation/notes/detail', defaults={'note': None}) 
 def detail(note):
-    print("à finir")
     con = sqlite3.connect('Cave_A_Bieres.db')
-
     cur = con.cursor()
 
     # liste des vendeurs pour le dropdown
@@ -147,48 +153,59 @@ def detail(note):
     # prix de la première bière pour affichage
     prix_init = cur.execute('''SELECT PRIX_VENTE FROM STOCK WHERE QUANTITE > 0''').fetchone()[0]
 
+    con.commit()
+    con.close()
+
     liste_bieres_df = pd.DataFrame(columns=["Bière","Vendeur","Quantité","Prix_unitaire"])
 
     detail_note, vendeur, total_qte, prix_total = recup_detail_note(note)
-    liste_bieres_df = liste_bieres_df.append(detail_note[["Bière","Vendeur","Quantité","Prix_unitaire"]])
-    print(liste_bieres_df)
-    if request.method == 'POST' :
-        item_sent = list(request.form.to_dict().values())[0]
-        print(item_sent)
-        if item_sent in liste_bieres:
-            prix_biere = cur.execute('''SELECT PRIX_VENTE FROM STOCK WHERE BIERE = ?''', [item_sent]).fetchone()[0]
-            return {'prix_unit' : prix_biere}
-        else :
-            l = len(request.form.to_dict())
-            d = request.form.to_dict()
-            print("d init : ", d)
-            type = d.pop("r"+str(l-1)) #récupérer s'il s'agit d'un submit ou d'un save
-            nom_note = d.pop("r"+str(l-2)) #récupérer le nom de la note si c'est un enregistrement et vide si paiement
-            for input in d :
-                row = request.form[input].split(";")
-                if row != [''] :
-                    liste_bieres_df = liste_bieres_df.append(pd.DataFrame([[row[2],row[3],int(row[0]), float(row[1])]], columns=["Bière","Vendeur","Quantité","Prix_unitaire"]))
-            if type == "submit":
-                # ok paiement on met à jour le stock et fait la facture
-                Vente(liste_bieres_df).MAJ_stock()
-                facture = Vente(liste_bieres_df).editer_facture()
-                # on supprime la note en base de données
-                supprimer_note(note)
-                print("facture : \n",facture.loc[facture["Bière"] == 'Total'])
-                vendeur_init = request.form.get('nom_vendeur')
-                vendeur = facture.loc[facture["Bière"] == 'Total']["Vendeur"].values[0]
-                total_quantite = facture.loc[facture["Bière"] == 'Total']["Quantité"].values[0]
-                total_prix = facture.loc[facture["Bière"] == 'Total']["Prix_total"].values[0]
-                return {'nom_vendeur':vendeur, 'qte_total':total_quantite, 'prix_total':total_prix}
-            elif type == "save":
-                # ko on fait une note à payer plus tard
-                print("à enregistrer\n")
-                print("nom note : ", nom_note)
-                print(liste_bieres_df)
-                Vente(liste_bieres_df).enregistrer(nom_note)
-    return render_template('note.html', nom_note = note, \
-        detail_note = detail_note[["Bière","Vendeur","Quantité","Prix_unitaire"]].values, liste_vendeurs = liste_vendeurs, liste_bieres=liste_bieres, \
-        nom_vendeur = vendeur, qte_totale = total_qte, prix_total = prix_total, prix_init=prix_init)
+    if detail_note.empty : 
+        return redirect(url_for('facturation'))
+    else :
+        liste_bieres_df = liste_bieres_df.append(detail_note[["Bière","Vendeur","Quantité","Prix_unitaire"]])
+        print(liste_bieres_df)
+
+        if request.method == 'POST' :
+            item_sent = list(request.form.to_dict().values())[0]
+            print(item_sent)
+            if item_sent in liste_bieres:
+                con = sqlite3.connect('Cave_A_Bieres.db')
+                cur = con.cursor()
+                prix_biere = cur.execute('''SELECT PRIX_VENTE FROM STOCK WHERE BIERE = ?''', [item_sent]).fetchone()[0]
+                con.commit()
+                con.close()
+                return {'prix_unit' : prix_biere}
+            else :
+                l = len(request.form.to_dict())
+                d = request.form.to_dict()
+                print("d init : ", d)
+                type = d.pop("r"+str(l-1)) #récupérer s'il s'agit d'un submit ou d'un save
+                nom_note = d.pop("r"+str(l-2)) #récupérer le nom de la note si c'est un enregistrement et vide si paiement
+                for input in d :
+                    row = request.form[input].split(";")
+                    if row != [''] :
+                        liste_bieres_df = liste_bieres_df.append(pd.DataFrame([[row[2],row[3],int(row[0]), float(row[1])]], columns=["Bière","Vendeur","Quantité","Prix_unitaire"]))
+                if type == "submit":
+                    # ok paiement on met à jour le stock et fait la facture
+                    Vente(liste_bieres_df).MAJ_stock()
+                    facture = Vente(liste_bieres_df).editer_facture()
+                    # on supprime la note en base de données
+                    supprimer_note(note)
+                    print("facture : \n",facture.loc[facture["Bière"] == 'Total'])
+                    vendeur_init = request.form.get('nom_vendeur')
+                    vendeur = facture.loc[facture["Bière"] == 'Total']["Vendeur"].values[0]
+                    total_quantite = facture.loc[facture["Bière"] == 'Total']["Quantité"].values[0]
+                    total_prix = facture.loc[facture["Bière"] == 'Total']["Prix_total"].values[0]
+                    return {'nom_vendeur':vendeur, 'qte_total':total_quantite, 'prix_total':total_prix}
+                elif type == "save":
+                    # ko on fait une note à payer plus tard
+                    print("à enregistrer\n")
+                    print("nom note : ", nom_note)
+                    print(liste_bieres_df)
+                    Vente(liste_bieres_df).enregistrer(nom_note)
+        return render_template('note.html', nom_note = note, \
+            detail_note = detail_note[["Bière","Vendeur","Quantité","Prix_unitaire"]].values, liste_vendeurs = liste_vendeurs, liste_bieres=liste_bieres, \
+            nom_vendeur = vendeur, qte_totale = total_qte, prix_total = prix_total, prix_init=prix_init)
 
 @app.route('/administration', methods=["GET","POST"])
 def param():
@@ -200,6 +217,9 @@ def param_vendeurs():
     cur = con.cursor()
 
     get_liste_vendeurs = cur.execute('''SELECT NOM_VENDEUR FROM VENDEURS''').fetchall()
+    con.commit()
+    con.close()
+
     liste_vendeurs = [vendeur for t in get_liste_vendeurs for vendeur in t]
 
     if request.method == "POST":

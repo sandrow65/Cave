@@ -23,11 +23,12 @@ class Vente():
 
     def enregistrer(self, nom):
         # chercher si une note à ce nom existe déjà
-        self.id_note = self.cur.execute('''SELECT ID_note FROM NOTES WHERE NOM_note = ?''', [nom]).fetchone()[0]
+        self.id_note = self.cur.execute('''SELECT ID_note FROM NOTES WHERE NOM_note = ?''', [nom]).fetchone()
         print("id note existant ? ", self.id_note)
         if self.id_note is None :
             self.id_note = self.cur.execute('''SELECT MAX(ID_note) FROM NOTES''').fetchone()[0]
         else :
+            self.id_note = self.id_note[0]
             self.cur.execute('''DELETE FROM NOTES WHERE ID_note = ?''', [self.id_note])
         self.max_idx_note = self.cur.execute('''SELECT MAX(IDX) FROM NOTES''').fetchone()[0]
         if self.max_idx_note is None:
@@ -109,18 +110,20 @@ def recup_detail_note(nom):
     cur = con.cursor()
 
     detail_note = pd.DataFrame(cur.execute('''SELECT * FROM NOTES WHERE NOM_Note = ?''', [nom]).fetchall(), columns=["IDX","ID Note", "Nom", "Date", "Vendeur", "Bière", "Quantité", "Prix_unitaire"])
-
-    nom = detail_note["Nom"]
-    vendeur = detail_note["Vendeur"]
-    detail_note["Prix_total"] =  detail_note["Quantité"] * detail_note["Prix_unitaire"]
-    # detail_note = detail_note.drop(columns=["IDX","ID Note", "Date"])
-    total_quantite = sum(detail_note["Quantité"])
-    total_prix = sum(detail_note["Prix_total"])
-
     con.commit()
     con.close()
-
-    return detail_note, vendeur.values[0], total_quantite, total_prix
+    print("note : ", detail_note)
+    if not(detail_note.empty) :
+        nom = detail_note["Nom"]
+        vendeur = detail_note["Vendeur"]
+        print("vendeur : ", vendeur)
+        detail_note["Prix_total"] =  detail_note["Quantité"] * detail_note["Prix_unitaire"]
+        # detail_note = detail_note.drop(columns=["IDX","ID Note", "Date"])
+        total_quantite = sum(detail_note["Quantité"])
+        total_prix = sum(detail_note["Prix_total"])
+        return detail_note, vendeur.values[0], total_quantite, total_prix
+    else :
+        return detail_note, '', 0, 0
 
 def supprimer_note(nom):
     con = sqlite3.connect('Cave_A_Bieres.db')

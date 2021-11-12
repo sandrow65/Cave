@@ -200,7 +200,7 @@
         });
         console.log("n"+n);
         obj[`r${n}`] = [];
-        let name_n = prompt("Nom de la note ?", "Note");
+        let name_n = prompt("Nom de la note ?", "{{nom_note}}");
         console.log(name_n)
         obj[`r${n}`].push(name_n);
         obj[`r${n}`] = obj[`r${n}`].join(";");
@@ -236,10 +236,6 @@
                 </select></td>\
             <td><input type="int"></td>\
             <td><input type="float" id = "prix_unit_1"></td></tr>');
-        // console.log(window.location.href);
-        current_url = window.location.href;
-        url_for_redirection = current_url.replace("notes/detail/NoteS","notes");
-        window.location.replace(url_for_redirection);
         $('.form-control').select2();
         $("#vendeur").html('');
         $("#total_quantite").html('');
