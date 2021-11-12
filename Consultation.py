@@ -1,6 +1,10 @@
 import sqlite3
 import pandas as pd
 from datetime import date
+import numpy as np
+from datetime import datetime
+sqlite3.register_adapter(np.int64, lambda val: int(val))
+sqlite3.register_adapter(np.int32, lambda val: int(val))
 
 
 def consulter_stock() :
@@ -60,5 +64,36 @@ def consulter_histo_ventes() :
 
     return get_histo_ventes
 
+def faire_inventaire(df):
+# df : dataframe des bières avec quantité théorique et réelle
+    con = sqlite3.connect('Cave_A_Bieres.db')
 
-# consulter_stock()
+    cur = con.cursor()
+
+    # récupération des derniers idx utilisés
+    max_id_inventaire = cur.execute('''SELECT MAX(ID_invent) FROM INVENTAIRES''').fetchone()[0]
+    max_idx = cur.execute('''SELECT MAX(IDX) FROM INVENTAIRES''').fetchone()[0]
+    if max_idx is None:
+        max_idx = 0
+    if max_id_inventaire is None:
+        max_id_inventaire = 0
+    max_idx = int(max_idx)
+    max_id_inventaire = int(max_id_inventaire)
+
+    print("Ajout de l'inventaire et mise à jour du stock...\n")
+
+    df["IDX"] = pd.Series([max_idx + i for i in range(1, len(df)+1)], index= df.index)
+    df["ID_Inventaire"] = pd.Series((max_id_inventaire + 1)*np.ones(len(df), dtype = np.int32),index=df.index)
+
+    inventaire_liste = list(df.to_records(index=False))
+    for i in range(len(inventaire_liste)):
+        params_insert = [inventaire_liste[i][6], inventaire_liste[i][7], datetime.now(), "", inventaire_liste[i][1], inventaire_liste[i][4], inventaire_liste[i][5]]
+        # Ajout lignes dans INVENTAIRE
+        sql = cur.execute("INSERT INTO INVENTAIRES VALUES (?, ?, ?, ?, ?, ?, ?)", params_insert)
+        # Mise à jour du stock réel dans STOCK
+        params_update = [datetime.now(), inventaire_liste[i][5], inventaire_liste[i][1]]
+        sql = cur.execute("UPDATE STOCK SET DATE_CHGT = ?, QUANTITE = ? WHERE BIERE = ? ", params_update)
+
+    print("L'inventaire a été ajouté et le stock mis à jour.\n")
+    con.commit()
+    con.close()

@@ -29,6 +29,18 @@ def creation_BDD() :
                 BIERE text,
                 QUANTITE real, 
                 PRIX real)''')
+    
+    # Create table NOTES
+    cur.execute('''DROP TABLE NOTES''')
+    cur.execute('''CREATE TABLE NOTES
+                (IDX integer primary key AUTOINCREMENT, 
+                ID_note integer,
+                NOM_note text,
+                DATE datetime, 
+                VENDEUR text, 
+                BIERE text,
+                QUANTITE real, 
+                PRIX real)''')
 
     # Create table INVENTAIRES
     cur.execute('''DROP TABLE INVENTAIRES''')

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+    {% extends 'base.html' %}
+
+
+    
+    {% block content %}
+    <h1>{% block title %} Administration {% endblock %}</h1>
+    <h2>Inventaire</h2>
+
+    <div style="width:100%; display: table;">
+        <div style='display: table-row;'>
+            <div style="display: table-cell; padding:0% 10% 0% 30%; font-size:80%;">
+                <label for="title">Rechercher une bière : </label>
+                <!-- <input id='searchInput' onkeyup='searchItem()' type='text'> -->
+                <select id='searchInput' name="biere" onChange='searchItem()' class = "selectpicker form-control" searchable = "Search..." style="width:auto;">
+                    <option selected> Tout sélectionner</option>
+                    {% for b in liste_bieres %}
+                        <option value="{{ b }}">{{b}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+<div id = inventTable>
+    <form method = "POST">
+        <div>
+            <div class = "table-wrapper" style="width:auto; text-align:center">
+                <table  class = "table table-fixed-header">
+                    <thead>
+                        <tr>
+                            <th>Bière</th>
+                            <th>Quantité théorique</th>
+                            <th>Quantité observée</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for b in bieres %}
+                        <tr>
+                            <td>{{b[0]}}</td>
+                            <td>{{b[1]}}</td>
+                            <td><input type="int" placeholder = "Saisir la quantité"></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>                
+                </table>
+            </div>
+        </div>
+    </form>
+        <button class="btn btn-secondary btn-lg" id="submit_rows" onClick="return confirm('Vous allez mettre à jour le stock avec les quantités observées. Etes-vous sûr ?')">Finir l'inventaire et mettre à jour le stock</button>
+    
+</div>
+
+    
+<script>
+    function searchItem() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchInput");
+        if (input.value != "Tout sélectionner") {
+            filter = input.value.toUpperCase();
+            console.log(filter);
+            table = document.getElementById("inventTable");
+            tr = table.getElementsByTagName("tr");
+            // loop on all rows of the table
+            for (i = 1; i < tr.length; i++) {
+                // search only on "BIERE" column
+                td = tr[i].getElementsByTagName("td")[0];
+                console.log(td.textContent);
+                txtValue = td.textContent || td.innerText;
+                isFound = false;
+                // test if input found
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    console.log("found");
+                    tr[i].style.display = "";
+                    isFound = true;
+                }
+                // item not found, hide the row
+                if(!isFound && tr[i].className !== "header") {
+                    console.log("not found");
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+        else {
+            table = document.getElementById("inventTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 1; i < tr.length; i++) {
+                tr[i].style.display = "";
+            }
+        }
+    };
+    $("#submit_rows").click(function() {
+        console.log("submit!");
+        // `obj` for storing the inputs, and the `n` to make unrepeated keys
+        var obj = {}, n = 0;
+        // loop over the rows
+        $("#inventTable tbody tr").each(function(ind, tr) {
+            console.log("n : " + n);
+            // add an array to the object
+            obj[`r${n}`] = [];
+            // loop over the inputs of this row
+            $(this).find("input").each(function(ind, input) {
+                // add the value of the input to the array and make sure to remove any semicolon since
+                // we will use it to separate the inputs
+                var val = input.value.replace(/;/g, "");
+                console.log("val input : " + val);
+                obj[`r${n}`].push(val);
+                });
+            $(this).find("select").each(function(ind, select) {
+                // add the value of the input to the array and make sure to remove any semicolon since
+                // we will use it to separate the inputs
+                var val = select.value.replace(/;/g, "");
+                console.log("val select : " + val);
+                obj[`r${n}`].push(val);
+                });
+            // no need for the array, just join it to a string of values separated by semicolons
+            obj[`r${n}`] = obj[`r${n}`].join(";");
+            // increase the value of `n`
+            n++;
+        });
+        console.log("n"+n);
+        obj[`r${n}`] = [];
+        obj[`r${n}`].push("submit");
+        obj[`r${n}`] = obj[`r${n}`].join(";");
+        // log the object to the console so you can see what we are sending
+        console.log("obj : " + obj);
+        // send the data to the server, and get totals
+        $.post(window.location.href, obj, (data, status) => console.log("Status: " + status));
+        // $.ajax({
+        //     type : "POST",
+        //     url : window.location.href, 
+        //     data : obj, 
+        //     success : function(result){
+        //         $("#vendeur").html(result.nom_vendeur);
+        //         $("#total_quantite").html(result.qte_total);
+        //         $("#total_prix").html(result.prix_total);}
+        // }); 
+    });
+</script>
+    
+{% endblock %}
+</html>

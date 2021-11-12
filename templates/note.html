@@ -3,26 +3,12 @@
 
 {% extends 'base.html' %}
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
-<link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />  
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
-<!-- <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
-<script src="http://d3js.org/d3.v3.min.js"></script> -->
-
-<script> 
-    $(document).ready(function() {
-    $('.form-control').select2();
-    });
-</script>
-
 {% block content %}
 <h1>{% block title %} Facturation {% endblock %}</h1>
+<h2>Notes enregistrées</h2>
+<h3>{{nom_note}}</h3>
 
 <div id = "facture">
-
-    <button class="btn btn-secondary btn-sm" id="notes">Liste des notes</button>
-
     <form method="POST">
         
         <div class = "table-wrapper" style="width:auto;">
@@ -36,6 +22,14 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for n in detail_note %}
+                        <tr>
+                            <td>{{n[0]}}</td>
+                            <td>{{n[1]}}</td>
+                            <td>{{n[2]}}</td>
+                            <td class = "prixUnit">{{n[3]}}</td>
+                        </tr>
+                    {% endfor %}
                     <tr>
                         <!-- <td><input type="text"></td> -->
                         <td><select name="biere" onChange = "searchPrice(this.value, this.closest('tr').rowIndex)" class = "selectpicker form-control" searchable = "Search..." style="width:auto;">
@@ -50,15 +44,15 @@
                             {% endfor %}
                         </select></td>
                         <td><input type="int"></td>
-                        <td><input type="float" id = "prix_unit_1" value = "{{prix_init}}"></td>
+                        <td><input type="float" class = "prixUnit" value = "{{prix_init}}"></td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
                         <td>Total</td>
-                        <td><span id = "vendeur"></span></td>
-                        <td><span id = "total_quantite"></span></td>
-                        <td><span id = "total_prix"></span></td>
+                        <td><span id = "vendeur">{{nom_vendeur}}</span></td>
+                        <td><span id = "total_quantite">{{qte_totale}}</span></td>
+                        <td><span id = "total_prix">{{prix_total}}</span></td>
                     </tr>
                 </tfoot>
             </table>
@@ -86,9 +80,10 @@
 
 <script language="javascript">
 
-    $("#notes").click(function(){
-        console.log(window.location.href);
-        location.href = window.location.href + "/notes"
+    var i = 1;
+    $('.prixUnit').each(function () {
+        $(this).attr('id', "prix_unit_"+i);
+        i++;
     });
 
     function searchPrice(biere, row_index) {
@@ -241,10 +236,15 @@
                 </select></td>\
             <td><input type="int"></td>\
             <td><input type="float" id = "prix_unit_1"></td></tr>');
+        // console.log(window.location.href);
+        current_url = window.location.href;
+        url_for_redirection = current_url.replace("notes/detail/NoteS","notes");
+        window.location.replace(url_for_redirection);
         $('.form-control').select2();
         $("#vendeur").html('');
         $("#total_quantite").html('');
         $("#total_prix").html('');
+        
     });
     
 </script>

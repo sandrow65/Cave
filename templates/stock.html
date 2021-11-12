@@ -5,7 +5,8 @@
 
     
     {% block content %}
-    <h1>{% block title %} Consultation du stock {% endblock %}</h1>
+    <h1>{% block title %} Administration {% endblock %}</h1>
+    <h2>Consulter le stock</h2>
 
     <div style="width:100%; display: table;">
         <div style='display: table-row;'>
@@ -14,11 +15,21 @@
             </div>
             <div style="display: table-cell; padding:0% 0% 0% 0%; font-size:80%;">
                 <label for="title">Bière : </label>
-                <input id='searchInput' onkeyup='searchItem()' type='text'>
+                <select id='searchInput' name="biere" onChange='searchItem()' class = "selectpicker form-control" searchable = "Search..." style="width:auto;">
+                    <option selected> Tout sélectionner</option>
+                    {% for b in liste_bieres %}
+                        <option value="{{ b }}">{{b}}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div style="display: table-cell; padding:0% 0% 0% 0%; font-size:80%;">
                 <label for="title">Brasserie : </label>
-                <input id='searchInput2' onkeyup='searchItem2()' type='text'>
+                <select id='searchInput2' name="brasserie" onChange='searchItem2()' class = "selectpicker form-control" searchable = "Search..." style="width:auto;">
+                    <option selected> Tout sélectionner</option>
+                    {% for b in liste_brasseries %}
+                        <option value="{{ b }}">{{b}}</option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
     </div>
@@ -37,57 +48,72 @@
     function searchItem() {
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById("searchInput");
-        filter = input.value.toUpperCase();
-        console.log(filter);
-        table = document.getElementById("stockTable");
-        tr = table.getElementsByTagName("tr");
-        // loop on all rows of the table
-        for (i = 1; i < tr.length; i++) {
-            // search only on "BIERE" column
-            td = tr[i].getElementsByTagName("td")[1];
-            console.log(td.textContent);
-            txtValue = td.textContent || td.innerText;
-            isFound = false;
-            // test if input found
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                console.log("found");
-                tr[i].style.display = "";
-                isFound = true;
-            }
-            // item not found, hide the row
-            if(!isFound && tr[i].className !== "header") {
-                console.log("not found");
-                tr[i].style.display = "none";
+        if (input.value != "Tout sélectionner") {
+            filter = input.value.toUpperCase();
+            console.log(filter);
+            table = document.getElementById("stockTable");
+            tr = table.getElementsByTagName("tr");
+            // loop on all rows of the table
+            for (i = 1; i < tr.length; i++) {
+                // search only on "BIERE" column
+                td = tr[i].getElementsByTagName("td")[1];
+                txtValue = td.textContent || td.innerText;
+                isFound = false;
+                // test if input found
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                    isFound = true;
+                }
+                // item not found, hide the row
+                if(!isFound && tr[i].className !== "header") {
+                    tr[i].style.display = "none";
+                }
             }
         }
-    }
+        else {
+            table = document.getElementById("stockTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 1; i < tr.length; i++) {
+                tr[i].style.display = "";
+            }
+        }
+    };
     function searchItem2() {
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById("searchInput2");
-        filter = input.value.toUpperCase();
-        console.log(filter);
-        table = document.getElementById("stockTable");
-        tr = table.getElementsByTagName("tr");
-        // loop on all rows of the table
-        for (i = 1; i < tr.length; i++) {
-            // search only on "BIERE" column
-            td = tr[i].getElementsByTagName("td")[2];
-            console.log(td.textContent);
-            txtValue = td.textContent || td.innerText;
-            isFound = false;
-            // test if input found
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                console.log("found");
-                tr[i].style.display = "";
-                isFound = true;
-            }
-            // item not found, hide the row
-            if(!isFound && tr[i].className !== "header") {
-                console.log("not found");
-                tr[i].style.display = "none";
+        if (input.value != "Tout sélectionner") {
+            filter = input.value.toUpperCase();
+            console.log(filter);
+            table = document.getElementById("stockTable");
+            tr = table.getElementsByTagName("tr");
+            // loop on all rows of the table
+            for (i = 1; i < tr.length; i++) {
+                // search only on "BIERE" column
+                td = tr[i].getElementsByTagName("td")[2];
+                console.log(td.textContent);
+                txtValue = td.textContent || td.innerText;
+                isFound = false;
+                // test if input found
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    console.log("found");
+                    tr[i].style.display = "";
+                    isFound = true;
+                }
+                // item not found, hide the row
+                if(!isFound && tr[i].className !== "header") {
+                    console.log("not found");
+                    tr[i].style.display = "none";
+                }
             }
         }
-    }
+        else {
+            table = document.getElementById("stockTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 1; i < tr.length; i++) {
+                tr[i].style.display = "";
+            }
+        }
+    };
 </script>
     
 {% endblock %}

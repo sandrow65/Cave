@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block title %} Facturation {% endblock %}</h1>
+<h2>Notes enregistrées</h2>
+<form method = "POST">
+    <div style="width: 100%; display: table;">
+        {% for note in notes%}
+            <div style="display: table-row">
+                <div style="display: table-cell; padding:0% 0% 0% 10%">
+                    <input type="submit" class="btn2 btn-secondary btn-lg" 
+                    id = "{{note}}" 
+                    name = "{{note}}" 
+                    value = "{{note}}"
+                    onclick="showFacture(this.id)"/>
+                </div>
+            </div>
+        {% endfor%}
+    </div>
+</form>
+
+<script>
+    function showFacture(name){
+        console.log(name);
+        $.post(window.location.href, name, (data, status) => console.log("Status: " + status));
+    }
+</script>
+
+{% endblock %}
+</html>

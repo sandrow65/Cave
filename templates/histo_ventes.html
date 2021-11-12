@@ -6,7 +6,7 @@
         <h1>{% block title %} Administration {% endblock %}</h1>
         
         <h2>{% block title2 %} Historique des ventes {% endblock %}</h2>
-    
+    <form method="POST">
         <div style="width:100%; display: table;">
             
             <div style='display: table-row;'>
@@ -15,15 +15,15 @@
                 </div>
                 <div style="display: table-cell; padding:0% 0% 0% 0%; font-size:80%;">
                     <label for="title">N° de facture : </label>
-                    <input id='searchInput' onkeyup='searchFacture()' type='text'>
+                    <input id='searchInput' name="facture" type='text' value = "{{ request.form['facture'] }}">
                 </div>
                 <div style="display: table-cell; padding:0% 0% 0% 0%; font-size:80%;">
                     <label for="title">Vendeur: </label>
-                    <input id='searchInput2' onkeyup='searchVendeur()' type='text'>
+                    <input id='searchInput2' name="vendeur" type='text' value = "{{ request.form['vendeur'] }}">
                 </div>
                 <div style="display: table-cell; padding:0% 0% 0% 0%; font-size:80%;">
                     <label for="title">Bière: </label>
-                    <input id='searchInput3' onkeyup='searchBiere()' type='text'>
+                    <input id='searchInput3' name="biere" type='text' value = "{{ request.form['biere'] }}">
                 </div>
             </div>
             <div style='display: table-row;'>
@@ -33,14 +33,27 @@
                 </div>
                 <div style="display: table-cell; padding:0% 0% 0% 0%; font-size:80%;">
                     <label for="title">Entre le : </label>
-                    <input id='date1' type='date'>
+                    <input id='date1' name="date_min" type='date' value = "{{ request.form['date_min'] }}">
                 </div>
                 <div style="display: table-cell; padding:0% 0% 0% 0%; font-size:80%;">
                     <label for="title">Et le: </label>
-                    <input id='date2' type='date'>
+                    <input id='date2' name="date_max" type='date' value = "{{ request.form['date_max'] }}">
                 </div>
                 <div style="padding:0% 0% 0% 0%; font-size:50%;">
-                    <button class="btn btn-secondary btn-lg" id="search_date">Rechercher</button>
+                    <button class="btn btn-secondary btn-lg" id="search_date" onclick="search()">Rechercher</button>
+                </div>
+            </div>
+            <div style='display: table-row;'>
+                <div style="display: table-cell; padding:0% 0% 0% 0%; font-size: 200%;">
+                    Total pour la sélection :
+                </div>
+                <div style="display: table-cell; padding:0% 0% 0% 0%; font-size:80%;">
+                    <label for="title">Quantité : </label>
+                    <span id = "total_quantite" style = "font-size: 150%;">{{total_qte}}</span>
+                </div>
+                <div style="display: table-cell; padding:0% 0% 0% 0%; font-size:80%;">
+                    <label for="title">Recettes : </label>
+                    <span id = "total_prix" style = "font-size: 150%;">{{total_prix}}</span>
                 </div>
             </div>
         </div>
@@ -54,20 +67,19 @@
                 </table>
             </div>
         </div>
+    </form>
 
     <script>
         function searchFacture() {
             var input, filter, table, tr, td, i, txtValue;
             input = document.getElementById("searchInput");
             filter = input.value.toUpperCase();
-            console.log(filter);
             table = document.getElementById("tableVentes");
             tr = table.getElementsByTagName("tr");
             // loop on all rows of the table
             for (i = 1; i < tr.length; i++) {
                 // search only on "N° Facture" column
                 td = tr[i].getElementsByTagName("td")[0];
-                console.log(td.textContent);
                 txtValue = td.textContent || td.innerText;
                 isFound = false;
                 // test if input found
@@ -87,25 +99,23 @@
             var input, filter, table, tr, td, i, txtValue;
             input = document.getElementById("searchInput3");
             filter = input.value.toUpperCase();
-            console.log(filter);
             table = document.getElementById("tableVentes");
             tr = table.getElementsByTagName("tr");
             // loop on all rows of the table
             for (i = 1; i < tr.length; i++) {
                 // search only on "N° Facture" column
                 td = tr[i].getElementsByTagName("td")[3];
-                console.log(td.textContent);
                 txtValue = td.textContent || td.innerText;
                 isFound = false;
                 // test if input found
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    console.log("found");
+                    // console.log("found");
                     tr[i].style.display = "";
                     isFound = true;
                 }
                 // item not found, hide the row
                 if(!isFound && tr[i].className !== "header") {
-                    console.log("not found");
+                    // console.log("not found");
                     tr[i].style.display = "none";
                 }
             }
@@ -114,28 +124,78 @@
             var input, filter, table, tr, td, i, txtValue;
             input = document.getElementById("searchInput2");
             filter = input.value.toUpperCase();
-            console.log(filter);
             table = document.getElementById("tableVentes");
             tr = table.getElementsByTagName("tr");
             // loop on all rows of the table
             for (i = 1; i < tr.length; i++) {
                 // search only on "N° Facture" column
                 td = tr[i].getElementsByTagName("td")[2];
-                console.log(td.textContent);
                 txtValue = td.textContent || td.innerText;
                 isFound = false;
                 // test if input found
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    console.log("found");
+                    // console.log("found");
                     tr[i].style.display = "";
                     isFound = true;
                 }
                 // item not found, hide the row
                 if(!isFound && tr[i].className !== "header") {
-                    console.log("not found");
+                    // console.log("not found");
                     tr[i].style.display = "none";
                 }
             }
+        }
+
+        function searchDates() {
+            var date1, date2, filter, table, tr, td, i, txtValue;
+            date1 = luxon.DateTime.fromFormat(document.getElementById("date1").value, "yyyy-MM-dd");
+            date2 = luxon.DateTime.fromFormat(document.getElementById("date2").value, "yyyy-MM-dd");
+            table = document.getElementById("tableVentes");
+            tr = table.getElementsByTagName("tr");
+            // loop on all rows of the table
+            for (i = 1; i < tr.length; i++) {
+                // search only on "N° Facture" column
+                td = tr[i].getElementsByTagName("td")[1].textContent;
+                td = td.substring(0, td.indexOf(" à"));
+                td_date = luxon.DateTime.fromFormat(td, "dd MMMM yyyy", {locale:'fr'});
+                DateValue = td_date;
+                isFound = false;
+                // test if date found
+                if (DateValue >= date1 && DateValue <= date2) {
+                    // console.log("found");
+                    tr[i].style.display = "";
+                    isFound = true;
+                }
+                // item not found, hide the row
+                if(!isFound && tr[i].className !== "header") {
+                    // console.log("not found");
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+
+        function search() {
+            // input_facture = document.getElementById("searchInput").value;
+            // input_biere = document.getElementById("searchInput3").value;
+            // input_vendeur = document.getElementById("searchInput2").value;
+            // input_date1 = document.getElementById("date1").value;
+            // input_date2 = document.getElementById("date2").value;
+            // if ((input_facture != "")){
+            //     console.log("facture");
+            //     searchFacture();
+            // }
+            // if ((input_biere != "")){
+            //     console.log("bière");
+            //     searchBiere();
+            // }
+            // if ((input_vendeur != "")){
+            //     console.log("vendeur");
+            //     searchVendeur();
+            // }
+            // if (!(!input_date1) || !(!input_date2)){
+            //     console.log("date");
+            //     searchDates();
+            // }
         }
     </script>
     {% endblock %}
