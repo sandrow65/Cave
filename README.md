@@ -16,7 +16,7 @@ Application de gestion de stock d'une cave à bières composée de 3 modules.
 - Approvisionner le stock en cas de réception
 - Augmenter le stock d'une bière existante ou créer le stock pour une nouvelle bière
 ## Module Administration
-- Consultation du stock en cours
+- Consultation du stock courant
 - Consulter l'historique des ventes - Possibilité de filtrer sur certains critères (ex : par période)
 - Paramétrer les vendeurs
 - Faire l'inventaire
